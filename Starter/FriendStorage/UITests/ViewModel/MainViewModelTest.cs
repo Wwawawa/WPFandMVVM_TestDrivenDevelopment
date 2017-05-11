@@ -1,4 +1,3 @@
-
 using FriendStorage.UI.ViewModel;
 using Xunit;
 
