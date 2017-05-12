@@ -1,5 +1,7 @@
 using System.Windows;
+using Autofac;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Startup;
 using FriendStorage.UI.View;
 using FriendStorage.UI.ViewModel;
 
@@ -10,11 +12,10 @@ namespace FriendStorage.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var mainWindow = new MainWindow(
-                new MainViewModel(
-                    new NavigationViewModel(
-                        new NavigationDataProvider(
-                            () => new DataAccess.FileDataService()))));
+            var bootStrapper = new BootStrapper();
+            var container = bootStrapper.BootStrap();
+
+            var mainWindow = container.Resolve<MainWindow>();
             mainWindow.Show();
         }
     }
