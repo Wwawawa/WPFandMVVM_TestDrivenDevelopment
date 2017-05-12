@@ -4,15 +4,12 @@ namespace FriendStorage.UI.ViewModel
 {
   public class MainViewModel : ViewModelBase
   {
-        public MainViewModel()
+        public MainViewModel(INavigationViewModel navigationViewModel)
         {
-            NavigationViewModel = 
-                new NavigationViewModel(
-                    new NavigationDataProvider(
-                        ()=>new DataAccess.FileDataService()));
+            NavigationViewModel = navigationViewModel;                
         }
 
-        public NavigationViewModel NavigationViewModel { get; private set; }
+        public INavigationViewModel NavigationViewModel { get; private set; }
 
         public void Load()
         {
@@ -20,5 +17,3 @@ namespace FriendStorage.UI.ViewModel
         }
     }
 }
-
-
