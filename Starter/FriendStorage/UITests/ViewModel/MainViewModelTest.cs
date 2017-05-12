@@ -1,3 +1,5 @@
+
+using System;
 using FriendStorage.UI.ViewModel;
 using Xunit;
 
@@ -8,8 +10,20 @@ namespace UITests.ViewModel
         [Fact]
         public void ShouldCallLoadMethodOfNavigationViewModel()
         {
-            var viewModel = new MainViewModel();
+            var navigationViewModelMock = new NavigationViewModelMock();
+            var viewModel = new MainViewModel(navigationViewModelMock);
 
+            viewModel.Load();
+
+            Assert.True(navigationViewModelMock.LoadHasBeenCalled);
+        }
+    }
+    public class NavigationViewModelMock : INavigationViewModel
+    {
+        public bool LoadHasBeenCalled { get; set; }
+        public void Load()
+        {
+            LoadHasBeenCalled = true;
         }
     }
 }
