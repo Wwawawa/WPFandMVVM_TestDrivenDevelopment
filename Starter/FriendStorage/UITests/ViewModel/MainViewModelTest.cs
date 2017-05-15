@@ -7,6 +7,7 @@ using FriendStorage.UI.Events;
 using FriendStorage.UI.ViewModel;
 using Moq;
 using Prism.Events;
+using UITests.Extensions;
 using Xunit;
 
 namespace UITests.ViewModel
@@ -68,6 +69,22 @@ namespace UITests.ViewModel
             _openFriendEditViewEvent.Publish(7);
 
             Assert.Equal(3, _viewModel.FriendEditViewModels.Count);
+        }
+        [Fact]
+        public void ShouldRaisePropertyChangeEventForSelectedFriendEditViewModel()
+        {
+            var fired = false;
+            var friendEditVM = new Mock<IFriendEditViewModel>();
+
+            fired = _viewModel.IsPropertyChangedFired(
+                () =>
+                {
+                    _viewModel.SelectedFriendEditViewModel = friendEditVM.Object;
+                },
+                nameof(_viewModel.SelectedFriendEditViewModel)            
+            );
+
+            Assert.True(fired);
         }
     }
 }
