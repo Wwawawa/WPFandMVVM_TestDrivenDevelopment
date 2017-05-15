@@ -47,6 +47,7 @@ namespace FriendStorage.UI.ViewModel
             set
             {
                 _selectedFriendEditViewModel = value;
+                OnPropertyChanged();
             }
         }        
         public void Load()
