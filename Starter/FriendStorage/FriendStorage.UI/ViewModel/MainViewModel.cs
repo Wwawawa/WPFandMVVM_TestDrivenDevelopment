@@ -1,7 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Events;
 using Prism.Events;
+using System.Linq;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -15,6 +17,20 @@ namespace FriendStorage.UI.ViewModel
             NavigationViewModel = navigationViewModel;
             FriendEditViewModels = new ObservableCollection<IFriendEditViewModel>();
             _friendEditVMCreator = friendEditVMCreator;
+            eventAggregator.GetEvent<OpenFriendEditViewEvent>().Subscribe(OnOpenFriendEditView);
+        }
+
+        private void OnOpenFriendEditView(int friendId)
+        {
+            var friendEditVM = FriendEditViewModels.SingleOrDefault(vm => vm.Friend.Id == friendId);
+            if (friendEditVM == null)
+            {
+                friendEditVM=_friendEditVMCreator();
+                FriendEditViewModels.Add(friendEditVM);
+                friendEditVM.Load(friendId);                
+            }
+            SelectedFriendEditViewModel = friendEditVM;
+
         }
 
         public INavigationViewModel NavigationViewModel { get; private set; }
